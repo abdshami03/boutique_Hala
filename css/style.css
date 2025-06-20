@@ -1,0 +1,351 @@
+:root {
+  --bg: #f7f2ea;
+  --text: #2d221b;
+  --accent: #3a2c23;
+  --header-bg: #fff8f0;
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Cairo", "Segoe UI", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+}
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--header-bg);
+  padding: 1rem;
+  border-bottom: 1px solid #e0d6c3;
+}
+.logo-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+.logo {
+  height: 48px;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+#lang-switch {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.snapcode-icon {
+  height: 36px;
+  width: 36px;
+  border-radius: 8px;
+  border: 1px solid #e0d6c3;
+}
+.hero {
+  text-align: center;
+  margin: 2rem 0 1rem 0;
+}
+#hero-title {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+#hero-tagline {
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.filters label {
+  font-size: 1rem;
+}
+.filters select {
+  font-size: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid #cbbfae;
+  background: #fff;
+}
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 0 1rem 2rem 1rem;
+}
+@media (min-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #e0d6c3aa;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.card:hover {
+  box-shadow: 0 4px 16px #cbbfae99;
+}
+.card-img {
+  width: 100%;
+  aspect-ratio: 1 / 1.2;
+  object-fit: cover;
+  background: #f3ede5;
+}
+.card-body {
+  padding: 0.7rem 1rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.card-info {
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Item Detail Page */
+.item-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 1200px;
+  margin: 1rem auto;
+  padding: 1rem;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .item-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.item-gallery .main-image img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #e0d6c3aa;
+  margin-bottom: 1rem;
+}
+.item-gallery .thumbnails {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.item-gallery .thumbnails img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.item-gallery .thumbnails img.active {
+  border-color: var(--accent);
+}
+
+.item-details .item-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.item-details .detail-line {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+.item-details .detail-line strong {
+  color: var(--accent);
+}
+.item-video {
+  margin-top: 1.5rem;
+}
+.item-video video {
+  width: 100%;
+  border-radius: 10px;
+}
+.snap-cta {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+  background: var(--header-bg);
+  padding: 1rem;
+  border-radius: 8px;
+}
+#back-link {
+  font-size: 2rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: bold;
+}
+.loading {
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 4rem;
+}
+
+/* Admin Login Page */
+.admin-login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--bg);
+}
+.login-container {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px #cbbfae99;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+.login-container h1 {
+  margin-bottom: 1.5rem;
+}
+.form-group {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #cbbfae;
+  border-radius: 5px;
+}
+.login-container button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+.error-message {
+  color: #d9534f;
+  margin-top: 1rem;
+  min-height: 1.2em;
+}
+
+/* Admin Dashboard */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--accent);
+  color: #fff;
+  padding: 1rem 2rem;
+}
+.admin-header h1 {
+  margin: 0;
+}
+#logout-btn {
+  background: #fff;
+  color: var(--accent);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+@media (min-width: 992px) {
+  .dashboard-container {
+    grid-template-columns: 400px 1fr;
+  }
+}
+.add-item-form {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #e0d6c3aa;
+}
+.add-item-form h2 {
+  margin-top: 0;
+}
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+.admin-item-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #e0d6c3aa;
+  overflow: hidden;
+  position: relative;
+}
+.admin-item-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+.admin-item-card .info {
+  padding: 1rem;
+}
+.admin-item-card .title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 30px;
+  text-align: center;
+}

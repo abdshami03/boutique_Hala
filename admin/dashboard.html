@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Boutique Hala</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script defer src="../js/data.js"></script>
+    <script defer src="../js/admin.js"></script>
+  </head>
+  <body class="admin-dashboard-page">
+    <header class="admin-header">
+      <h1>Admin Dashboard</h1>
+      <button id="logout-btn">Logout</button>
+    </header>
+    <main class="dashboard-container">
+      <section class="add-item-form">
+        <h2>Add New Abaya</h2>
+        <form id="add-form">
+          <div class="form-group">
+            <label for="title-ar">Title (Arabic)</label>
+            <input type="text" id="title-ar" required />
+          </div>
+          <div class="form-group">
+            <label for="title-en">Title (English)</label>
+            <input type="text" id="title-en" required />
+          </div>
+          <div class="form-group">
+            <label for="size">Size</label>
+            <select id="size" required>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="color">Color</label>
+            <input
+              type="text"
+              id="color"
+              placeholder="e.g., أسود / Black"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="images">Images (select multiple)</label>
+            <input type="file" id="images" multiple accept="image/*" />
+          </div>
+          <div class="form-group">
+            <label for="video">Video (optional)</label>
+            <input type="file" id="video" accept="video/*" />
+          </div>
+          <button type="submit">Add Abaya</button>
+        </form>
+      </section>
+      <section class="item-list">
+        <h2>Existing Abayas</h2>
+        <div id="admin-item-grid" class="admin-grid">
+          <!-- Items will be rendered here -->
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

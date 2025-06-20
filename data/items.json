@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": { "ar": "عباية رمادية فخمة", "en": "Elegant Grey Abaya" },
+    "size": "M",
+    "color": "رمادي / Grey",
+    "images": ["assets/images/logo.jpg", "assets/images/logo.jpg"],
+    "video": "assets/videos/abaya1.mp4"
+  },
+  {
+    "id": 2,
+    "title": { "ar": "عباية سوداء كلاسيكية", "en": "Classic Black Abaya" },
+    "size": "L",
+    "color": "أسود / Black",
+    "images": ["assets/images/logo.jpg"],
+    "video": ""
+  },
+  {
+    "id": 3,
+    "title": { "ar": "عباية بيضاء كلاسيكية", "en": "Classic White Abaya" },
+    "size": "M",
+    "color": "بيضاء / White",
+    "images": ["assets/images/logo.jpg", "assets/images/logo.jpg"],
+    "video": ""
+  }
+]
