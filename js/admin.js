@@ -68,6 +68,7 @@ function handleDashboardPage() {
   });
 
   renderAdminGrid();
+  setupPublishModal(); // Activate the new publish button logic
 }
 
 function renderAdminGrid() {
@@ -98,4 +99,38 @@ function deleteItemClicked(id) {
     dataService.deleteItem(id);
     renderAdminGrid();
   }
+}
+
+function setupPublishModal() {
+  const modal = document.getElementById("publish-modal");
+  const openBtn = document.getElementById("publish-btn");
+  const closeBtn = document.getElementById("close-modal-btn");
+  const copyBtn = document.getElementById("copy-json-btn");
+  const jsonOutput = document.getElementById("json-output");
+  const successMsg = document.getElementById("copy-success-msg");
+
+  openBtn.addEventListener("click", () => {
+    const items = dataService.getItems();
+    jsonOutput.value = JSON.stringify(items, null, 2); // Pretty print JSON
+    modal.style.display = "flex";
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  copyBtn.addEventListener("click", () => {
+    jsonOutput.select();
+    document.execCommand("copy");
+    successMsg.style.display = "inline";
+    setTimeout(() => {
+      successMsg.style.display = "none";
+    }, 2000);
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
 }
