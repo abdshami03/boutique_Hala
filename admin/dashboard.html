@@ -14,15 +14,153 @@
       <button id="logout-btn">Logout</button>
     </header>
     <main class="dashboard-container">
-      <section class="admin-note">
-        <h2>How to Add or Edit Abayas</h2>
-        <p>
-          To add, edit, or remove abayas, simply update the
-          <code>data/abayas.json</code> file in your repository using the GitHub
-          web interface or by pushing changes from your computer. No redeploy or
-          build is needed—changes appear instantly!
-        </p>
-      </section>
+      <div id="admin-app"></div>
     </main>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        addDoc,
+        updateDoc,
+        deleteDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+      // Login check
+      if (localStorage.getItem("hala_admin") !== "1") {
+        window.location.href = "index.html";
+      }
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDXjm-OuXcva9jBznXGv9mhF3TxkHNMPG4",
+        authDomain: "boutique-hala.firebaseapp.com",
+        projectId: "boutique-hala",
+        storageBucket: "boutique-hala.appspot.com",
+        messagingSenderId: "688747116804",
+        appId: "1:688747116804:web:75e997747f115e76413851",
+      };
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const appDiv = document.getElementById("admin-app");
+
+      function abayaCard(item, id) {
+        const card = document.createElement("div");
+        card.className = "admin-item-card";
+        card.innerHTML = `
+          <div class="info">
+            <div class="title">${item.title}</div>
+            <div>المقاس: ${item.size.join(", ")}</div>
+            <div>اللون: ${item.color}</div>
+            <div>الوصف: ${item.description}</div>
+            <div>الصور: ${item.images
+              .map((img) => `<img src='${img}' width='60'>`)
+              .join(" ")}</div>
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          </div>
+        `;
+        card.querySelector(".delete-btn").onclick = async () => {
+          if (confirm("Delete this abaya?")) {
+            await deleteDoc(doc(db, "abayas", id));
+            loadAbayas();
+          }
+        };
+        card.querySelector(".edit-btn").onclick = () => showEditForm(id, item);
+        return card;
+      }
+
+      async function loadAbayas() {
+        appDiv.innerHTML = "";
+        const abayasCol = collection(db, "abayas");
+        const abayasSnapshot = await getDocs(abayasCol);
+        const grid = document.createElement("div");
+        grid.className = "admin-grid";
+        abayasSnapshot.forEach((docSnap) => {
+          const item = docSnap.data();
+          grid.appendChild(abayaCard(item, docSnap.id));
+        });
+        appDiv.appendChild(grid);
+      }
+
+      function showEditForm(id, item) {
+        const form = document.createElement("form");
+        form.className = "add-item-form";
+        form.innerHTML = `
+          <h2>Edit Abaya</h2>
+          <input name="title" value="${item.title}" required />
+          <input name="description" value="${item.description}" required />
+          <input name="size" value="${item.size.join(
+            ","
+          )}" required placeholder="e.g. 52,54,56" />
+          <input name="color" value="${item.color}" required />
+          <input name="images" value="${item.images.join(
+            ","
+          )}" required placeholder="image1.jpg,image2.jpg" />
+          <button type="submit">Save</button>
+          <button type="button" id="cancel-edit">Cancel</button>
+        `;
+        form.onsubmit = async (e) => {
+          e.preventDefault();
+          await updateDoc(doc(db, "abayas", id), {
+            title: form.title.value,
+            description: form.description.value,
+            size: form.size.value.split(",").map((s) => Number(s.trim())),
+            color: form.color.value,
+            images: form.images.value.split(",").map((s) => s.trim()),
+          });
+          appDiv.removeChild(form);
+          loadAbayas();
+        };
+        form.querySelector("#cancel-edit").onclick = () =>
+          appDiv.removeChild(form);
+        appDiv.appendChild(form);
+      }
+
+      function showAddForm() {
+        const form = document.createElement("form");
+        form.className = "add-item-form";
+        form.innerHTML = `
+          <h2>Add Abaya</h2>
+          <input name="title" placeholder="Title" required />
+          <input name="description" placeholder="Description" required />
+          <input name="size" placeholder="e.g. 52,54,56" required />
+          <input name="color" placeholder="Color" required />
+          <input name="images" placeholder="image1.jpg,image2.jpg" required />
+          <button type="submit">Add</button>
+          <button type="button" id="cancel-add">Cancel</button>
+        `;
+        form.onsubmit = async (e) => {
+          e.preventDefault();
+          await addDoc(collection(db, "abayas"), {
+            title: form.title.value,
+            description: form.description.value,
+            size: form.size.value.split(",").map((s) => Number(s.trim())),
+            color: form.color.value,
+            images: form.images.value.split(",").map((s) => s.trim()),
+          });
+          appDiv.removeChild(form);
+          loadAbayas();
+        };
+        form.querySelector("#cancel-add").onclick = () =>
+          appDiv.removeChild(form);
+        appDiv.appendChild(form);
+      }
+
+      const addBtn = document.createElement("button");
+      addBtn.textContent = "Add Abaya";
+      addBtn.className = "publish-btn";
+      addBtn.onclick = showAddForm;
+      appDiv.appendChild(addBtn);
+
+      loadAbayas();
+
+      document.getElementById("logout-btn").onclick = function () {
+        localStorage.removeItem("hala_admin");
+        window.location.href = "index.html";
+      };
+    </script>
   </body>
 </html>
