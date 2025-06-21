@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "title": "Black Embroidered Abaya",
+    "description": "Elegant black abaya with silver embroidery",
+    "size": ["S", "M", "L"],
+    "color": "Black",
+    "images": ["images/logo.jpg", "images/logo.jpg"]
+  },
+  {
+    "id": 2,
+    "title": "Beige Open Abaya",
+    "description": "Flowy beige abaya perfect for summer",
+    "size": ["M", "L"],
+    "color": "Beige",
+    "images": ["images/logo.jpg"]
+  }
+]

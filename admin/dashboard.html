@@ -11,72 +11,18 @@
   <body class="admin-dashboard-page">
     <header class="admin-header">
       <h1>Admin Dashboard</h1>
-      <div>
-        <button id="publish-btn" class="publish-btn">Publish Changes</button>
-        <button id="logout-btn">Logout</button>
-      </div>
+      <button id="logout-btn">Logout</button>
     </header>
     <main class="dashboard-container">
-      <section class="add-item-form">
-        <h2>Add New Abaya</h2>
-        <form id="add-form">
-          <div class="form-group">
-            <label for="title-ar">Title (Arabic)</label>
-            <input type="text" id="title-ar" required />
-          </div>
-          <div class="form-group">
-            <label for="title-en">Title (English)</label>
-            <input type="text" id="title-en" required />
-          </div>
-          <div class="form-group">
-            <label for="size">Size</label>
-            <select id="size" required>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="color">Color</label>
-            <input
-              type="text"
-              id="color"
-              placeholder="e.g., أسود / Black"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="images">Images (select multiple)</label>
-            <input type="file" id="images" multiple accept="image/*" />
-          </div>
-          <div class="form-group">
-            <label for="video">Video (optional)</label>
-            <input type="file" id="video" accept="video/*" />
-          </div>
-          <button type="submit">Add Abaya</button>
-        </form>
-      </section>
-      <section class="item-list">
-        <h2>Existing Abayas</h2>
-        <div id="admin-item-grid" class="admin-grid">
-          <!-- Items will be rendered here -->
-        </div>
+      <section class="admin-note">
+        <h2>How to Add or Edit Abayas</h2>
+        <p>
+          To add, edit, or remove abayas, simply update the
+          <code>data/abayas.json</code> file in your repository using the GitHub
+          web interface or by pushing changes from your computer. No redeploy or
+          build is needed—changes appear instantly!
+        </p>
       </section>
     </main>
-
-    <div id="publish-modal" class="modal-overlay" style="display: none">
-      <div class="modal-content">
-        <button id="close-modal-btn" class="close-btn">&times;</button>
-        <h2>Publish Your Data</h2>
-        <p>
-          Copy this data and paste it into your
-          <code>data/items.json</code> file to make your changes live.
-        </p>
-        <textarea id="json-output" readonly></textarea>
-        <button id="copy-json-btn">Copy to Clipboard</button>
-        <p id="copy-success-msg" style="display: none">Copied!</p>
-      </div>
-    </div>
   </body>
 </html>

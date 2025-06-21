@@ -46,9 +46,61 @@
           <!-- Colors will be populated dynamically -->
         </select>
       </section>
-      <section class="gallery" id="gallery">
-        <!-- Abaya cards will be rendered here -->
-      </section>
+      <section id="abaya-gallery"></section>
     </main>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+      // Your Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyDXjm-OuXcva9jBznXGv9mhF3TxkHNMPG4",
+        authDomain: "boutique-hala.firebaseapp.com",
+        projectId: "boutique-hala",
+        storageBucket: "boutique-hala.appspot.com",
+        messagingSenderId: "688747116804",
+        appId: "1:688747116804:web:75e997747f115e76413851",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // Fetch and render abayas from Firestore
+      async function renderAbayas() {
+        const gallery = document.getElementById("abaya-gallery");
+        gallery.innerHTML = "Loading...";
+        const abayasCol = collection(db, "abayas");
+        const abayasSnapshot = await getDocs(abayasCol);
+        gallery.innerHTML = "";
+        if (abayasSnapshot.empty) {
+          gallery.innerHTML =
+            "<div class='loading'>لا توجد عبايات مطابقة / No abayas found</div>";
+          return;
+        }
+        abayasSnapshot.forEach((doc) => {
+          const item = doc.data();
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+            <p><strong>المقاس:</strong> ${item.size.join(", ")}</p>
+            <p><strong>اللون:</strong> ${item.color}</p>
+            <div>${item.images
+              .map((img) => `<img src="${img}" width="100">`)
+              .join("")}</div>
+          `;
+          gallery.appendChild(card);
+        });
+      }
+
+      // Call on page load
+      renderAbayas();
+    </script>
   </body>
 </html>
