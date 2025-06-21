@@ -23,5 +23,22 @@
         <p id="login-error" class="error-message"></p>
       </form>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("login-form");
+        const error = document.getElementById("login-error");
+        form.onsubmit = function (e) {
+          e.preventDefault();
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          if (username === "admin" && password === "hala123") {
+            localStorage.setItem("hala_admin", "1");
+            window.location.href = "dashboard.html";
+          } else {
+            error.textContent = "Invalid username or password";
+          }
+        };
+      });
+    </script>
   </body>
 </html>

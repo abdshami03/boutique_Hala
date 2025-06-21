@@ -54,9 +54,10 @@
         getFirestore,
         collection,
         getDocs,
+        query,
+        where,
       } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-      // Your Firebase config
       const firebaseConfig = {
         apiKey: "AIzaSyDXjm-OuXcva9jBznXGv9mhF3TxkHNMPG4",
         authDomain: "boutique-hala.firebaseapp.com",
@@ -66,24 +67,69 @@
         appId: "1:688747116804:web:75e997747f115e76413851",
       };
 
-      // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      // Fetch and render abayas from Firestore
-      async function renderAbayas() {
-        const gallery = document.getElementById("abaya-gallery");
-        gallery.innerHTML = "Loading...";
+      let allAbayas = [];
+
+      async function fetchAbayas() {
         const abayasCol = collection(db, "abayas");
         const abayasSnapshot = await getDocs(abayasCol);
+        return abayasSnapshot.docs.map((doc) => doc.data());
+      }
+
+      function getUnique(arr, key) {
+        const set = new Set();
+        arr.forEach((item) => {
+          if (Array.isArray(item[key])) {
+            item[key].forEach((val) => set.add(val));
+          } else {
+            set.add(item[key]);
+          }
+        });
+        return Array.from(set).sort((a, b) =>
+          typeof a === "number" ? a - b : a.localeCompare(b)
+        );
+      }
+
+      function populateFilters() {
+        const sizeFilter = document.getElementById("size-filter");
+        const colorFilter = document.getElementById("color-filter");
+        // Clear all except first option
+        while (sizeFilter.options.length > 1) sizeFilter.remove(1);
+        while (colorFilter.options.length > 1) colorFilter.remove(1);
+        // Sizes
+        getUnique(allAbayas, "size").forEach((size) => {
+          const opt = document.createElement("option");
+          opt.value = size;
+          opt.textContent = size;
+          sizeFilter.appendChild(opt);
+        });
+        // Colors
+        getUnique(allAbayas, "color").forEach((color) => {
+          const opt = document.createElement("option");
+          opt.value = color;
+          opt.textContent = color;
+          colorFilter.appendChild(opt);
+        });
+      }
+
+      function renderAbayas(filter = {}) {
+        const gallery = document.getElementById("abaya-gallery");
         gallery.innerHTML = "";
-        if (abayasSnapshot.empty) {
+        let filtered = allAbayas;
+        if (filter.size)
+          filtered = filtered.filter((item) =>
+            item.size.includes(Number(filter.size))
+          );
+        if (filter.color)
+          filtered = filtered.filter((item) => item.color === filter.color);
+        if (filtered.length === 0) {
           gallery.innerHTML =
             "<div class='loading'>لا توجد عبايات مطابقة / No abayas found</div>";
           return;
         }
-        abayasSnapshot.forEach((doc) => {
-          const item = doc.data();
+        filtered.forEach((item) => {
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
@@ -99,8 +145,37 @@
         });
       }
 
-      // Call on page load
-      renderAbayas();
+      async function init() {
+        const gallery = document.getElementById("abaya-gallery");
+        gallery.innerHTML = "Loading...";
+        try {
+          allAbayas = await fetchAbayas();
+          populateFilters();
+          renderAbayas();
+        } catch (err) {
+          gallery.innerHTML = `<div class='loading'>حدث خطأ في تحميل العبايات / Error loading abayas<br>${err.message}</div>`;
+          console.error("Failed to load abayas:", err);
+        }
+      }
+
+      document
+        .getElementById("size-filter")
+        .addEventListener("change", function () {
+          renderAbayas({
+            size: this.value,
+            color: document.getElementById("color-filter").value,
+          });
+        });
+      document
+        .getElementById("color-filter")
+        .addEventListener("change", function () {
+          renderAbayas({
+            size: document.getElementById("size-filter").value,
+            color: this.value,
+          });
+        });
+
+      init();
     </script>
   </body>
 </html>
