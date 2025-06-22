@@ -9,13 +9,14 @@
     />
     <title>بوتيك هالة | Boutique Hala</title>
     <link rel="stylesheet" href="css/style.css" />
+    <script defer src="js/data-manager.js"></script>
     <script defer src="js/lang.js"></script>
     <script defer src="js/main.js"></script>
   </head>
   <body>
     <header class="main-header">
       <div class="logo-container">
-        <img src="assets//images/logo.jpg" alt="بوتيك هالة Logo" class="logo" />
+        <img src="assets/images/logo.jpg" alt="بوتيك هالة Logo" class="logo" />
       </div>
       <div class="header-actions">
         <button id="lang-switch" aria-label="تبديل اللغة / Switch Language">
@@ -35,147 +36,17 @@
         <label for="size-filter" id="size-label">المقاس:</label>
         <select id="size-filter">
           <option value="">الكل</option>
-          <option value="S">صغير</option>
-          <option value="M">متوسط</option>
-          <option value="L">كبير</option>
-          <option value="XL">كبير جدًا</option>
         </select>
         <label for="color-filter" id="color-label">اللون:</label>
         <select id="color-filter">
           <option value="">الكل</option>
-          <!-- Colors will be populated dynamically -->
+        </select>
+        <label for="category-filter" id="category-label">الفئة:</label>
+        <select id="category-filter">
+          <option value="">الكل</option>
         </select>
       </section>
       <section id="abaya-gallery"></section>
     </main>
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-      import {
-        getFirestore,
-        collection,
-        getDocs,
-        query,
-        where,
-      } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyDXjm-OuXcva9jBznXGv9mhF3TxkHNMPG4",
-        authDomain: "boutique-hala.firebaseapp.com",
-        projectId: "boutique-hala",
-        storageBucket: "boutique-hala.appspot.com",
-        messagingSenderId: "688747116804",
-        appId: "1:688747116804:web:75e997747f115e76413851",
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      let allAbayas = [];
-
-      async function fetchAbayas() {
-        const abayasCol = collection(db, "abayas");
-        const abayasSnapshot = await getDocs(abayasCol);
-        return abayasSnapshot.docs.map((doc) => doc.data());
-      }
-
-      function getUnique(arr, key) {
-        const set = new Set();
-        arr.forEach((item) => {
-          if (Array.isArray(item[key])) {
-            item[key].forEach((val) => set.add(val));
-          } else {
-            set.add(item[key]);
-          }
-        });
-        return Array.from(set).sort((a, b) =>
-          typeof a === "number" ? a - b : a.localeCompare(b)
-        );
-      }
-
-      function populateFilters() {
-        const sizeFilter = document.getElementById("size-filter");
-        const colorFilter = document.getElementById("color-filter");
-        // Clear all except first option
-        while (sizeFilter.options.length > 1) sizeFilter.remove(1);
-        while (colorFilter.options.length > 1) colorFilter.remove(1);
-        // Sizes
-        getUnique(allAbayas, "size").forEach((size) => {
-          const opt = document.createElement("option");
-          opt.value = size;
-          opt.textContent = size;
-          sizeFilter.appendChild(opt);
-        });
-        // Colors
-        getUnique(allAbayas, "color").forEach((color) => {
-          const opt = document.createElement("option");
-          opt.value = color;
-          opt.textContent = color;
-          colorFilter.appendChild(opt);
-        });
-      }
-
-      function renderAbayas(filter = {}) {
-        const gallery = document.getElementById("abaya-gallery");
-        gallery.innerHTML = "";
-        let filtered = allAbayas;
-        if (filter.size)
-          filtered = filtered.filter((item) =>
-            item.size.includes(Number(filter.size))
-          );
-        if (filter.color)
-          filtered = filtered.filter((item) => item.color === filter.color);
-        if (filtered.length === 0) {
-          gallery.innerHTML =
-            "<div class='loading'>لا توجد عبايات مطابقة / No abayas found</div>";
-          return;
-        }
-        filtered.forEach((item) => {
-          const card = document.createElement("div");
-          card.className = "card";
-          card.innerHTML = `
-            <h3>${item.title}</h3>
-            <p>${item.description}</p>
-            <p><strong>المقاس:</strong> ${item.size.join(", ")}</p>
-            <p><strong>اللون:</strong> ${item.color}</p>
-            <div>${item.images
-              .map((img) => `<img src="${img}" width="100">`)
-              .join("")}</div>
-          `;
-          gallery.appendChild(card);
-        });
-      }
-
-      async function init() {
-        const gallery = document.getElementById("abaya-gallery");
-        gallery.innerHTML = "Loading...";
-        try {
-          allAbayas = await fetchAbayas();
-          populateFilters();
-          renderAbayas();
-        } catch (err) {
-          gallery.innerHTML = `<div class='loading'>حدث خطأ في تحميل العبايات / Error loading abayas<br>${err.message}</div>`;
-          console.error("Failed to load abayas:", err);
-        }
-      }
-
-      document
-        .getElementById("size-filter")
-        .addEventListener("change", function () {
-          renderAbayas({
-            size: this.value,
-            color: document.getElementById("color-filter").value,
-          });
-        });
-      document
-        .getElementById("color-filter")
-        .addEventListener("change", function () {
-          renderAbayas({
-            size: document.getElementById("size-filter").value,
-            color: this.value,
-          });
-        });
-
-      init();
-    </script>
   </body>
 </html>

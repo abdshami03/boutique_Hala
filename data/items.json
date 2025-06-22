@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "عباية سوداء مطرزة",
+    "nameEn": "Black Embroidered Abaya",
+    "description": "عباية أنيقة سوداء مع تطريز فضي",
+    "descriptionEn": "Elegant black abaya with silver embroidery",
+    "price": 299,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Black"],
+    "imageUrls": ["assets/images/logo.jpg"],
+    "videoUrls": [],
+    "category": "عبايات كلاسيكية",
+    "categoryEn": "Classic Abayas"
+  },
+  {
+    "id": 2,
+    "name": "عباية بيج مفتوحة",
+    "nameEn": "Beige Open Abaya",
+    "description": "عباية بيج متدفقة مثالية للصيف",
+    "descriptionEn": "Flowy beige abaya perfect for summer",
+    "price": 249,
+    "sizes": ["M", "L", "XL"],
+    "colors": ["Beige", "Cream"],
+    "imageUrls": ["assets/images/logo.jpg"],
+    "videoUrls": [],
+    "category": "عبايات صيفية",
+    "categoryEn": "Summer Abayas"
+  },
+  {
+    "id": 3,
+    "name": "عباية أزرق داكن",
+    "nameEn": "Navy Blue Abaya",
+    "description": "عباية أزرق داكن أنيقة للمناسبات الرسمية",
+    "descriptionEn": "Elegant navy blue abaya for formal occasions",
+    "price": 399,
+    "sizes": ["S", "M", "L"],
+    "colors": ["Navy Blue"],
+    "imageUrls": ["assets/images/logo.jpg"],
+    "videoUrls": [],
+    "category": "عبايات رسمية",
+    "categoryEn": "Formal Abayas"
+  }
+]

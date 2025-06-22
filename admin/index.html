@@ -5,7 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Login | Boutique Hala</title>
     <link rel="stylesheet" href="../css/style.css" />
-    <script defer src="../js/admin.js"></script>
+    <style>
+      .admin-login-page {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      .login-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .login-container h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #333;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #555;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        box-sizing: border-box;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      }
+
+      button[type="submit"] {
+        width: 100%;
+        padding: 0.75rem;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      button[type="submit"]:hover {
+        background: #0056b3;
+      }
+
+      .error-message {
+        color: #dc3545;
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+      }
+    </style>
   </head>
   <body class="admin-login-page">
     <div class="login-container">
@@ -27,12 +101,14 @@
       document.addEventListener("DOMContentLoaded", function () {
         const form = document.getElementById("login-form");
         const error = document.getElementById("login-error");
+
         form.onsubmit = function (e) {
           e.preventDefault();
           const username = document.getElementById("username").value;
           const password = document.getElementById("password").value;
+
           if (username === "admin" && password === "hala123") {
-            localStorage.setItem("hala_admin", "1");
+            localStorage.setItem("boutique_admin", "1");
             window.location.href = "dashboard.html";
           } else {
             error.textContent = "Invalid username or password";
