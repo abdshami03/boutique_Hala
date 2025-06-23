@@ -3,7 +3,7 @@ class DataManager {
   constructor() {
     this.items = [];
     this.isRTL = true; // Default to Arabic
-    this.init();
+    this.ready = this.init(); // This promise will resolve when init() is complete
   }
 
   async init() {
@@ -17,7 +17,6 @@ class DataManager {
     if (stored) {
       try {
         this.items = JSON.parse(stored);
-        console.log("Loaded data from localStorage");
         return;
       } catch (e) {
         console.warn("Failed to parse localStorage data:", e);
@@ -30,9 +29,7 @@ class DataManager {
       if (!response.ok) throw new Error("Failed to fetch items.json");
       this.items = await response.json();
       this.saveToLocalStorage();
-      console.log("Loaded data from items.json");
     } catch (error) {
-      console.error("Failed to load data:", error);
       this.items = [];
     }
   }
@@ -61,8 +58,7 @@ class DataManager {
 
   // CRUD Operations
   addItem(item) {
-    const newId = Math.max(...this.items.map((i) => i.id), 0) + 1;
-    const newItem = { ...item, id: newId };
+    const newItem = { ...item, id: String(new Date().getTime()) };
     this.items.push(newItem);
     this.saveToLocalStorage();
     this.notifyDataChange();
@@ -70,9 +66,11 @@ class DataManager {
   }
 
   updateItem(id, updates) {
-    const index = this.items.findIndex((item) => item.id === id);
+    const index = this.items.findIndex(
+      (item) => String(item.id) === String(id)
+    );
     if (index !== -1) {
-      this.items[index] = { ...this.items[index], ...updates };
+      this.items[index] = { ...this.items[index], ...updates, id: id };
       this.saveToLocalStorage();
       this.notifyDataChange();
       return this.items[index];
@@ -81,7 +79,9 @@ class DataManager {
   }
 
   deleteItem(id) {
-    const index = this.items.findIndex((item) => item.id === id);
+    const index = this.items.findIndex(
+      (item) => String(item.id) === String(id)
+    );
     if (index !== -1) {
       const deleted = this.items.splice(index, 1)[0];
       this.saveToLocalStorage();
@@ -92,7 +92,7 @@ class DataManager {
   }
 
   getItem(id) {
-    return this.items.find((item) => item.id === id);
+    return this.items.find((item) => String(item.id) === String(id));
   }
 
   getAllItems() {
@@ -131,14 +131,6 @@ class DataManager {
     return Array.from(sizes).sort();
   }
 
-  getUniqueColors() {
-    const colors = new Set();
-    this.items.forEach((item) => {
-      item.colors.forEach((color) => colors.add(color));
-    });
-    return Array.from(colors).sort();
-  }
-
   getUniqueCategories() {
     const categories = new Set();
     this.items.forEach((item) => {
@@ -146,37 +138,6 @@ class DataManager {
       categories.add(item.categoryEn);
     });
     return Array.from(categories).sort();
-  }
-
-  // Export data for GitHub Pages API simulation
-  exportData() {
-    const dataStr = JSON.stringify(this.items, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
-    return dataBlob;
-  }
-
-  // Simulate GitHub Pages API commit
-  async simulateGitHubCommit() {
-    try {
-      const dataBlob = this.exportData();
-      const url = URL.createObjectURL(dataBlob);
-
-      // Create download link to simulate file update
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "items.json";
-      a.style.display = "none";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      console.log("Data exported successfully");
-      return true;
-    } catch (error) {
-      console.error("Failed to export data:", error);
-      return false;
-    }
   }
 }
 

@@ -7,100 +7,107 @@
     <link rel="stylesheet" href="../css/style.css" />
     <style>
       .admin-login-page {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        min-height: 100vh;
+        background: #f7f2ea;
         display: flex;
-        align-items: center;
         justify-content: center;
-        padding: 1rem;
+        align-items: center;
+        height: 100vh;
+        font-family: "Cairo", sans-serif;
       }
-
-      .login-container {
-        background: white;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      .login-wrapper {
         width: 100%;
         max-width: 400px;
+        padding: 2rem;
       }
-
-      .login-container h1 {
+      .login-container {
+        background: #fff;
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         text-align: center;
-        margin-bottom: 2rem;
-        color: #333;
       }
-
+      .login-container h1 {
+        color: #3a2c23;
+        font-weight: 700;
+        font-size: 2rem;
+        margin-bottom: 2rem;
+      }
       .form-group {
         margin-bottom: 1.5rem;
+        text-align: left;
       }
-
       .form-group label {
         display: block;
         margin-bottom: 0.5rem;
         font-weight: 500;
         color: #555;
       }
-
       .form-group input {
         width: 100%;
-        padding: 0.75rem;
+        padding: 0.8rem 1rem;
         border: 1px solid #ddd;
-        border-radius: 5px;
+        border-radius: 8px;
         font-size: 1rem;
         box-sizing: border-box;
+        transition: all 0.2s;
       }
-
       .form-group input:focus {
         outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        border-color: #3a2c23;
+        box-shadow: 0 0 0 3px rgba(58, 44, 35, 0.1);
       }
-
-      button[type="submit"] {
+      .login-btn {
         width: 100%;
-        padding: 0.75rem;
-        background: #007bff;
+        padding: 0.9rem;
+        background: #3a2c23;
         color: white;
         border: none;
-        border-radius: 5px;
-        font-size: 1rem;
-        font-weight: 500;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
         cursor: pointer;
         transition: background-color 0.2s;
       }
-
-      button[type="submit"]:hover {
-        background: #0056b3;
+      .login-btn:hover {
+        background: #2a1f1a;
       }
-
-      .error-message {
+      #login-error {
         color: #dc3545;
-        text-align: center;
         margin-top: 1rem;
         font-size: 0.9rem;
+        min-height: 1.2em; /* Prevents layout shift */
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.2s;
+      }
+      #login-error.visible {
+        visibility: visible;
+        opacity: 1;
       }
     </style>
   </head>
   <body class="admin-login-page">
-    <div class="login-container">
-      <h1>Admin Login</h1>
-      <form id="login-form">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" required />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" required />
-        </div>
-        <button type="submit">Login</button>
-        <p id="login-error" class="error-message"></p>
-      </form>
+    <div class="login-wrapper">
+      <div class="login-container">
+        <h1>Admin Login</h1>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+          </div>
+          <button type="submit" class="login-btn">Login</button>
+          <p id="login-error"></p>
+        </form>
+      </div>
     </div>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const form = document.getElementById("login-form");
-        const error = document.getElementById("login-error");
+        const errorEl = document.getElementById("login-error");
 
         form.onsubmit = function (e) {
           e.preventDefault();
@@ -108,10 +115,11 @@
           const password = document.getElementById("password").value;
 
           if (username === "admin" && password === "hala123") {
-            localStorage.setItem("boutique_admin", "1");
+            sessionStorage.setItem("isAdminAuthenticated", "true");
             window.location.href = "dashboard.html";
           } else {
-            error.textContent = "Invalid username or password";
+            errorEl.textContent = "Invalid username or password.";
+            errorEl.classList.add("visible");
           }
         };
       });

@@ -1,44 +1,41 @@
 [
   {
-    "id": 1,
-    "name": "عباية سوداء مطرزة",
-    "nameEn": "Black Embroidered Abaya",
-    "description": "عباية أنيقة سوداء مع تطريز فضي",
-    "descriptionEn": "Elegant black abaya with silver embroidery",
-    "price": 299,
-    "sizes": ["S", "M", "L", "XL"],
-    "colors": ["Black"],
-    "imageUrls": ["assets/images/logo.jpg"],
-    "videoUrls": [],
-    "category": "عبايات كلاسيكية",
-    "categoryEn": "Classic Abayas"
+    "id": "1721248747430",
+    "name": {
+      "ar": "عباية سوداء مطرزة",
+      "en": "عباية سوداء مطرزة"
+    },
+    "description": {
+      "ar": "عباية أنيقة سوداء مع تطريز فضي",
+      "en": "عباية أنيقة سوداء مع تطريز فضي"
+    },
+    "sizes": ["52", "54", "56"],
+    "images": ["../assets/images/logo.jpg"]
   },
   {
-    "id": 2,
-    "name": "عباية بيج مفتوحة",
-    "nameEn": "Beige Open Abaya",
-    "description": "عباية بيج متدفقة مثالية للصيف",
-    "descriptionEn": "Flowy beige abaya perfect for summer",
-    "price": 249,
-    "sizes": ["M", "L", "XL"],
-    "colors": ["Beige", "Cream"],
-    "imageUrls": ["assets/images/logo.jpg"],
-    "videoUrls": [],
-    "category": "عبايات صيفية",
-    "categoryEn": "Summer Abayas"
+    "id": "1721248767358",
+    "name": {
+      "ar": "عباية بيج مفتوحة",
+      "en": "عباية بيج مفتوحة"
+    },
+    "description": {
+      "ar": "عباية بيج متدفقة مثالية للصيف",
+      "en": "عباية بيج متدفقة مثالية للصيف"
+    },
+    "sizes": ["54", "56", "58"],
+    "images": ["../assets/images/logo.jpg"]
   },
   {
-    "id": 3,
-    "name": "عباية أزرق داكن",
-    "nameEn": "Navy Blue Abaya",
-    "description": "عباية أزرق داكن أنيقة للمناسبات الرسمية",
-    "descriptionEn": "Elegant navy blue abaya for formal occasions",
-    "price": 399,
-    "sizes": ["S", "M", "L"],
-    "colors": ["Navy Blue"],
-    "imageUrls": ["assets/images/logo.jpg"],
-    "videoUrls": [],
-    "category": "عبايات رسمية",
-    "categoryEn": "Formal Abayas"
+    "id": "1721248782352",
+    "name": {
+      "ar": "عباية أزرق داكن",
+      "en": "عباية أزرق داكن"
+    },
+    "description": {
+      "ar": "عباية أزرق داكن أنيقة للمناسبات الرسمية",
+      "en": "عباية أزرق داكن أنيقة للمناسبات الرسمية"
+    },
+    "sizes": ["52", "54"],
+    "images": ["../assets/images/logo.jpg"]
   }
 ]
