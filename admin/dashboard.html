@@ -335,6 +335,9 @@
           this.imageInput.addEventListener("change", (e) =>
             this.handleImageSelection(e)
           );
+          window.addEventListener("boutiqueDataChanged", () =>
+            this.renderItems()
+          );
         }
 
         logout() {
